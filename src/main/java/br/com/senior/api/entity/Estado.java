@@ -2,18 +2,14 @@ package br.com.senior.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Entity
-@EqualsAndHashCode
-public class Categoria implements Serializable {
+public class Estado implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +17,6 @@ public class Categoria implements Serializable {
     private String nome;
 
     @JsonManagedReference
-    @OneToMany(targetEntity = Produto.class, fetch = FetchType.LAZY, mappedBy = "categoria")
-    private List<Produto> produtos;
-
+    @OneToMany(targetEntity = Cidade.class, fetch = FetchType.LAZY, mappedBy = "estado")
+    private List<Cidade> cidades;
 }
