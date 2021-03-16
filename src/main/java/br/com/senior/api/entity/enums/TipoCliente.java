@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum TipoCliente {
 
-    PESSOAFISICA(0, "Pessoa Física"),
-    PESSOAJURIDICA(1, "Pessoa Jurídica");
+    PESSOAFISICA(1, "Pessoa Física"),
+    PESSOAJURIDICA(2, "Pessoa Jurídica");
 
     private int cod;
     private String descricao;

@@ -1,13 +1,8 @@
 package br.com.senior.api;
 
-import br.com.senior.api.entity.Categoria;
-import br.com.senior.api.entity.Cidade;
-import br.com.senior.api.entity.Estado;
-import br.com.senior.api.entity.Produto;
-import br.com.senior.api.repositories.CategoriaRepository;
-import br.com.senior.api.repositories.CidadeRepository;
-import br.com.senior.api.repositories.EstadoRepository;
-import br.com.senior.api.repositories.ProdutoRepository;
+import br.com.senior.api.entity.*;
+import br.com.senior.api.entity.enums.TipoCliente;
+import br.com.senior.api.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,6 +25,12 @@ public class ApiApplication implements CommandLineRunner {
 
 	@Autowired
 	private CidadeRepository cidadeRepository;
+
+	@Autowired
+	private ClienteRepository clienteRepository;
+
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApiApplication.class, args);
@@ -93,18 +94,36 @@ public class ApiApplication implements CommandLineRunner {
 
 		cidadeRepository.save(c1);
 		cidadeRepository.save(c2);
-		cidadeRepository.save(c3);;
+		cidadeRepository.save(c3);
 
+		Cliente cli1 = new Cliente();
+		cli1.setNome("Maria Silva");
+		cli1.setEmail("maria@gmail.com");
+		cli1.setCpfOuCnpj("36378912377");
+		cli1.setTipo(TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+		Cliente clienteSalvo = clienteRepository.save(cli1);
 
-//		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
-//		cat2.getProdutos().addAll(Arrays.asList(p2));
-//
-//		p1.getCategorias().addAll(Arrays.asList(cat1));
-//		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
-//		p2.getCategorias().addAll(Arrays.asList(cat1));
-//
-//		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
-//		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+		Endereco e1 = new Endereco();
+		e1.setLogradouro("Rua Flores");
+		e1.setNumero("300");
+		e1.setComplemento("Apto 303");
+		e1.setBairro("Jardim");
+		e1.setCep("38220837");
+		e1.setCliente(clienteSalvo);
+		e1.setCidade(c1);
 
+		Endereco e2 = new Endereco();
+		e2.setLogradouro("Avenida Matos");
+		e2.setNumero("105");
+		e2.setComplemento("Sala 800");
+		e2.setBairro("Centro");
+		e2.setCep("38777012");
+		e2.setCliente(clienteSalvo);
+		e2.setCidade(c2);
+
+		clienteSalvo.getEnderecos().addAll(Arrays.asList(e1, e2));
+		clienteRepository.save(clienteSalvo);
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 	}
 }
